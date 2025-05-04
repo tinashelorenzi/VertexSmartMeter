@@ -1,0 +1,55 @@
+[27-Apr-2025 21:37:08 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'usage) VALUES (?, ?, ?)' at line 1 in /home/vertexcg/public_html/VSM-Data/usage.php:41
+Stack trace:
+#0 /home/vertexcg/public_html/VSM-Data/usage.php(41): mysqli->prepare('INSERT INTO KWu...')
+#1 {main}
+  thrown in /home/vertexcg/public_html/VSM-Data/usage.php on line 41
+[28-Apr-2025 18:00:06 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`vertexcg_VSM_data`.`KWusage`, CONSTRAINT `KWusage_ibfk_1` FOREIGN KEY (`device_id`) REFERENCES `smart_meters` (`device_id`)) in /home/vertexcg/public_html/VSM-Data/usage.php:48
+Stack trace:
+#0 /home/vertexcg/public_html/VSM-Data/usage.php(48): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/vertexcg/public_html/VSM-Data/usage.php on line 48
+[30-Apr-2025 21:12:07 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Connection refused in /home/vertexcg/public_html/VSM-Data/updates.php:5
+Stack trace:
+#0 /home/vertexcg/public_html/VSM-Data/updates.php(5): mysqli->__construct('localhost', 'vertexcg_vsmxxp...', Object(SensitiveParameterValue), 'vertexcg_VSM_da...')
+#1 {main}
+  thrown in /home/vertexcg/public_html/VSM-Data/updates.php on line 5
+[01-May-2025 07:23:44 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Field 'UnitsLeft' doesn't have a default value in /home/vertexcg/public_html/VSM-Data/usage.php:48
+Stack trace:
+#0 /home/vertexcg/public_html/VSM-Data/usage.php(48): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/vertexcg/public_html/VSM-Data/usage.php on line 48
+[01-May-2025 08:23:46 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Field 'UnitsLeft' doesn't have a default value in /home/vertexcg/public_html/VSM-Data/usage.php:48
+Stack trace:
+#0 /home/vertexcg/public_html/VSM-Data/usage.php(48): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/vertexcg/public_html/VSM-Data/usage.php on line 48
+[01-May-2025 09:23:47 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Field 'UnitsLeft' doesn't have a default value in /home/vertexcg/public_html/VSM-Data/usage.php:48
+Stack trace:
+#0 /home/vertexcg/public_html/VSM-Data/usage.php(48): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/vertexcg/public_html/VSM-Data/usage.php on line 48
+[01-May-2025 10:23:50 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Field 'UnitsLeft' doesn't have a default value in /home/vertexcg/public_html/VSM-Data/usage.php:48
+Stack trace:
+#0 /home/vertexcg/public_html/VSM-Data/usage.php(48): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/vertexcg/public_html/VSM-Data/usage.php on line 48
+[01-May-2025 11:23:52 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Field 'UnitsLeft' doesn't have a default value in /home/vertexcg/public_html/VSM-Data/usage.php:48
+Stack trace:
+#0 /home/vertexcg/public_html/VSM-Data/usage.php(48): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/vertexcg/public_html/VSM-Data/usage.php on line 48
+[01-May-2025 12:23:55 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Field 'UnitsLeft' doesn't have a default value in /home/vertexcg/public_html/VSM-Data/usage.php:48
+Stack trace:
+#0 /home/vertexcg/public_html/VSM-Data/usage.php(48): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/vertexcg/public_html/VSM-Data/usage.php on line 48
+[01-May-2025 13:23:57 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Field 'UnitsLeft' doesn't have a default value in /home/vertexcg/public_html/VSM-Data/usage.php:48
+Stack trace:
+#0 /home/vertexcg/public_html/VSM-Data/usage.php(48): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/vertexcg/public_html/VSM-Data/usage.php on line 48
+[01-May-2025 14:23:59 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Field 'UnitsLeft' doesn't have a default value in /home/vertexcg/public_html/VSM-Data/usage.php:48
+Stack trace:
+#0 /home/vertexcg/public_html/VSM-Data/usage.php(48): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/vertexcg/public_html/VSM-Data/usage.php on line 48
