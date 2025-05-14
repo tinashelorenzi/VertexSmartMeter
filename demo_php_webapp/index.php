@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+date_default_timezone_set('Africa/Johannesburg');
 // Clear any existing session data
 if(isset($_SESSION['login_error'])) {
     $login_error = $_SESSION['login_error'];

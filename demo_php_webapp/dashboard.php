@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Africa/Johannesburg');
 session_start();
 require_once 'db_connect.php';
 
@@ -28,6 +29,14 @@ if ($result->num_rows > 0) {
     $last_update = "N/A";
 }
 
+// Calculate pending units from pending updates
+$stmt = $conn->prepare("SELECT SUM(units) as pending_units FROM updates WHERE device_id = ? AND status = 'pending'");
+$stmt->bind_param("s", $device_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$pending_units = $row['pending_units'] ? $row['pending_units'] : 0;
+
 // Get last update ID from smart_meters
 $stmt = $conn->prepare("SELECT last_update_id FROM smart_meters WHERE device_id = ?");
 $stmt->bind_param("s", $device_id);
@@ -37,7 +46,7 @@ $row = $result->fetch_assoc();
 $last_update_id = $row['last_update_id'];
 
 // Get recent top-up history
-$stmt = $conn->prepare("SELECT * FROM updates WHERE device_id = ? ORDER BY id DESC LIMIT 5");
+$stmt = $conn->prepare("SELECT id, units, update_id, status, time_stamp FROM updates WHERE device_id = ? ORDER BY id DESC LIMIT 5");
 $stmt->bind_param("s", $device_id);
 $stmt->execute();
 $topup_history = $stmt->get_result();
@@ -58,7 +67,7 @@ $stmt->close();
         <header>
             <div class="logo">
                 <svg width="40" height="40" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" fill="#6a0dad" />
+                    <circle cx="50" cy="50" r="40" fill="#4E4699" />
                     <path d="M50 20 L80 50 L50 80 L20 50 Z" fill="white" />
                 </svg>
                 <h1>Vertex Smart Meters</h1>
@@ -68,7 +77,7 @@ $stmt->close();
                 <a href="index.php" class="btn-logout">Logout</a>
             </div>
         </header>
-        
+
         <main>
             <div class="meter-info">
                 <h2>Meter Information</h2>
@@ -82,27 +91,35 @@ $stmt->close();
                         <span class="value"><?php echo $last_update; ?></span>
                     </div>
                     <div class="info-item">
-                        <span class="label">Current Usage:</span>
+                        <span class="label">Total Usage:</span>
                         <span class="value"><?php echo $kw_usage; ?> KW</span>
                     </div>
                 </div>
             </div>
-            
+
             <div class="balance-section">
-                <div class="balance-card">
-                    <h3>Units Balance</h3>
-                    <div class="balance-amount"><?php echo $units_left; ?></div>
-                    <div class="units-label">Units</div>
-                    <button id="topupBtn" class="btn-primary">Top Up Units</button>
+                <h2>Units Balance</h2>
+                <div class="balance-container">
+                    <div class="balance-card">
+                        <h3>Current Balance</h3>
+                        <div class="balance-amount"><?php echo $units_left; ?></div>
+                        <div class="units-label">Units</div>
+                    </div>
+                    <div class="balance-card">
+                        <h3>Pending Units</h3>
+                        <div class="balance-amount pending"><?php echo $pending_units; ?></div>
+                        <div class="units-label">Units</div>
+                    </div>
                 </div>
+                <button id="topupBtn" class="btn-primary">Top Up Units</button>
             </div>
-            
+
             <div class="recent-history">
                 <h2>Recent Top-up History</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>Date</th>
+                            <th>Date & Time</th>
                             <th>Units</th>
                             <th>Status</th>
                         </tr>
@@ -110,7 +127,7 @@ $stmt->close();
                     <tbody>
                         <?php while ($row = $topup_history->fetch_assoc()) { ?>
                             <tr>
-                                <td><?php echo $row['id']; ?></td>
+                                <td><?php echo date("Y-m-d H:i", strtotime($row['time_stamp'])); ?></td>
                                 <td><?php echo $row['units']; ?> Units</td>
                                 <td>
                                     <span class="status <?php echo $row['status']; ?>">
@@ -128,7 +145,7 @@ $stmt->close();
                 </table>
             </div>
         </main>
-        
+
         <!-- Top-up Modal -->
         <div id="topupModal" class="modal">
             <div class="modal-content">
@@ -137,13 +154,13 @@ $stmt->close();
                 <form id="topupForm">
                     <div class="form-group">
                         <label for="units">Number of Units</label>
-                        <input type="number" id="units" name="units" min="1" required>
+                        <input type="number" id="units" name="units" required>
                     </div>
                     <button type="submit" class="btn-primary">Proceed to Payment</button>
                 </form>
             </div>
         </div>
-        
+
         <!-- Payment Simulation Modal -->
         <div id="paymentModal" class="modal">
             <div class="modal-content">
@@ -152,23 +169,25 @@ $stmt->close();
                 <p>Please wait while we process your payment...</p>
             </div>
         </div>
-        
+
         <!-- Success Modal -->
         <div id="successModal" class="modal">
             <div class="modal-content">
                 <h2>Top-up Successful!</h2>
                 <p>Your account has been credited with <span id="creditedUnits"></span> units.</p>
-                <p>New balance: <span id="newBalance"></span> units</p>
+                <p>Current balance: <span id="currentBalance"></span> units</p>
+                <p>Pending balance: <span id="pendingBalance"></span> units</p>
                 <button id="closeSuccessBtn" class="btn-primary">Close</button>
             </div>
         </div>
     </div>
-    
+
     <script>
         // Store PHP variables for JavaScript use
         const deviceId = "<?php echo $device_id; ?>";
         const lastUpdateId = <?php echo $last_update_id; ?>;
         const currentUnits = <?php echo $units_left; ?>;
+        const pendingUnits = <?php echo $pending_units; ?>;
     </script>
     <script src="scripts.js"></script>
 </body>
